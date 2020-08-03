@@ -11,28 +11,29 @@ const colors = [
 
 const refs = {
   body: document.querySelector('body'),
-  buttonStart: document.querySelector('button [data-action="start"]'),
+  buttonStart: document.querySelector('button[data-action="start"]'),
   buttonStop: document.querySelector('button[data-action="stop"]'),
 };
 
-refs.buttonStart.addEventListener('click', startButton);
-refs.buttonStop.addEventListener('click', stopButton);
-
 let intervalId = null;
+
+refs.buttonStart.addEventListener('click', changeColor);
+refs.buttonStop.addEventListener('click', stopColor);
 
 const randomIntegerFromInterval = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-function startButton() {
-  intervalId = setInterval(changeColor, 1000);
-}
-
 function changeColor() {
-  refs.body.style.backgroundColor =
-    colors[randomIntegerFromInterval(0, colors.length - 1)];
+  refs.buttonStart.setAttribute('disabled', 'disabled');
+  intervalId = setInterval(() => {
+    const backgroundColorBody =
+      colors[randomIntegerFromInterval(0, colors.length)];
+    refs.body.style.backgroundColor = backgroundColorBody;
+  }, 1000);
 }
 
-function stopButton() {
+function stopColor() {
+  refs.buttonStart.removeAttribute('disabled');
   clearInterval(intervalId);
 }
